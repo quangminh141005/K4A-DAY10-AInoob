@@ -12,7 +12,7 @@
 |---:|---|---|---|---|---|
 | 1 | | | | Trưởng nhóm / Pipeline Integrator (`core/`, `phase1.py`, `corruption_flow.py`) | `report/<MSSV1>_HoTen.md` |
 | 2 | | | | Data Foundation & Recovery (`crossref.py`, `cleaning.py`, raw data) | `report/<MSSV2>_HoTen.md` |
-| 3 | | | | RAG & Vector Index (`retrieval/index.py`, `embeddings.py`, ChromaDB) | `report/<MSSV3>_HoTen.md` |
+| 3 | Nguyễn Thế Hưng | 2A202602381 | hungdong19982003@gmail.com | RAG & Vector Index (`retrieval/index.py`, `embeddings.py`, ChromaDB) | `report/2A202602381_NguyenTheHung.md` |
 | 4 | | | | Observability & Evaluation (`quality.py` GX 1.x, `testset.py`, reporting) | `report/<MSSV4>_HoTen.md` |
 
 *(Nếu nhóm có 3 hoặc 5-6 thành viên, xem bảng phân công chi tiết theo vai trò trong file `CHECKPOINTS.md`)*.
@@ -39,12 +39,13 @@
 - **Điều học được / Đóng góp chính:**
   - Kỹ thuật truy vết nguồn gốc dữ liệu (Data Lineage) và bảo toàn raw snapshot trước khi biến đổi.
 
-### ## HoVaTen3-MSSV3
+### ## NguyenTheHung-2A202602381
 - **Vai trò:** Phụ trách RAG, Vector Database & Embedding.
 - **Công việc chi tiết đã hoàn thành:**
   - Quản lý mô hình embedding `sentence-transformers/all-MiniLM-L6-v2`.
   - Nạp và quản lý 3 collection riêng biệt trong ChromaDB (`papers-baseline`, `papers-corrupted`, `papers-repaired`).
   - Xây dựng QA Agent truy vấn ngữ cảnh chính xác theo tài liệu.
+  - Xây dựng script kiểm thử độc lập `script/verify_member3.py` kiểm tra toàn bộ luồng RAG retrieval.
 - **Điều học được / Đóng góp chính:**
   - Cách cô lập các không gian vector để so sánh khách quan giữa dữ liệu sạch và dữ liệu bị lỗi.
 
