@@ -27,16 +27,16 @@ Chỉ nhận ownership cho phần bạn trực tiếp thực hiện. Liên hệ 
 
 ### Việc hỗ trợ ngoài phạm vi chính
 
-| Hoạt động                         | Thành viên/module được hỗ trợ | Kết quả                    |
-| ------------------------------------ | ------------------------------------ | ---------------------------- |
-| [Debug/tích hợp/tài liệu] | [Tên hoặc module] | [Kết quả và bằng chứng] |
+| Hoạt động                  | Thành viên/module được hỗ trợ | Kết quả                    |
+| ----------------------------- | ------------------------------------ | ---------------------------- |
+| [Debug/tích hợp/tài liệu] | [Tên hoặc module]                  | [Kết quả và bằng chứng] |
 
 ## 3. Kết quả theo vai trò
 
-| Nhiệm vụ đã thực hiện | File/hàm/artifact liên quan | Kết quả bàn giao       | Cách xác minh         |
-| --------------------------- | ----------------------------- | ------------------------- | ----------------------- |
-| [Mô tả cụ thể] | [Đường dẫn file] | [Artifact/metrics/report] | [Lệnh/artifact] |
-| [Mô tả cụ thể] | [Đường dẫn file] | [Artifact/metrics/report] | [Lệnh/artifact] |
+| Nhiệm vụ đã thực hiện | File/hàm/artifact liên quan | Kết quả bàn giao       | Cách xác minh  |
+| --------------------------- | ----------------------------- | ------------------------- | ---------------- |
+| [Mô tả cụ thể]          | [Đường dẫn file]          | [Artifact/metrics/report] | [Lệnh/artifact] |
+| [Mô tả cụ thể]          | [Đường dẫn file]          | [Artifact/metrics/report] | [Lệnh/artifact] |
 
 Nêu một output cụ thể mà phần việc của bạn tạo ra hoặc giúp xác minh:
 

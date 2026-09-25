@@ -1,0 +1,28 @@
+{
+  "corruptions": [
+    {
+      "type": "drop_latest_record",
+      "count": 1
+    },
+    {
+      "type": "blank_summary",
+      "count": 1
+    },
+    {
+      "type": "inject_text_noise",
+      "count": 1
+    },
+    {
+      "type": "truncate_title",
+      "count": 1
+    },
+    {
+      "type": "stale_published_date",
+      "count": 1
+    },
+    {
+      "type": "duplicate_record",
+      "count": 1
+    }
+  ]
+}
