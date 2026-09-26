@@ -185,13 +185,14 @@ def fetch_source_records(settings: Settings) -> list[PaperRecord]:
     4. Parse payload bang `parse_crossref_payload`.
     5. Luu records vao `settings.paths.raw_records_json`.
     """
-    raw_respond_path = settings.paths.raw_api_response
+    #define the records path and response path for crossred api
+    raw_response_path = settings.paths.raw_api_response
     raw_records_path = settings.paths.raw_records_json
 
     payload: dict | None = None
 
     if not settings.refresh_source and raw_records_path.exists():
-        payload = json.loads(raw_respond_path.read_text(encoding="utf-8"))
+        payload = json.loads(raw_response_path.read_text(encoding="utf-8"))
     else:
         retry_policy = Retry( # handle when api don't respond 
             total=4,
@@ -206,7 +207,7 @@ def fetch_source_records(settings: Settings) -> list[PaperRecord]:
 
         session = requests.Session()
         session.mount("https://", HTTPAdapter(max_retries=retry_policy))
-
+        # set params and header
         params = {
             "query": settings.source_query,
             "filter": settings.source_filter,
@@ -218,8 +219,70 @@ def fetch_source_records(settings: Settings) -> list[PaperRecord]:
             "User-Agent": "day10-data-observability-lab/1.0"
         }
 
-        
+        try:
+            response = session.get(
+                "https://api.crossref.org/works",
+                params=params,
+                headers=headers,
+                timeout=(10, 30),
+            )
+
+            response.raise_for_status()
+
+            payload = response.json() # Turn the json data to the Python dictionary
+            if not isinstance(payload, dict):
+                raise ValueError("Crossref returned an invalid json type")
+
+            # preserve the original API response in a file
+            raw_response_path.parent.mkdir(parents=True, exist_ok=True)
+            raw_response_path.write_text(
+                json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
+                encoding="utf-8"
+            )
+
+        except (requests.RequestException, ValueError, json.JSONDecodeError) as error:
+            # Fallback to exist offline snapshot
+            if not raw_response_path.exists():
+                raise RuntimeError(
+                    "Could not fetch crossRaf data and i can't find offline snapshot"
+                ) from error
+
+            payload = json.loads(raw_response_path.read_text(encoding="utf-8"))
+
+        finally:
+            session.close()
+
+
+        records = parse_crossref_payload(payload)
+
+        # save the normalized paperrecord object as a json file
+        raw_records_path.parent.mkdir(parents=True, exist_ok=True)
+        raw_records_path.write_text(
+            json.dumps(
+                [asdict(record) for record in records],
+                indent=2,
+                ensure_ascii=False
+            ) + "\n",
+            encoding="utf-8"
+        )
+
+        return records
+
+
 
 def load_raw_records(path: Path) -> list[PaperRecord]:
     """TODO(student): doc JSON snapshot va map thanh `PaperRecord`."""
-    raise NotImplementedError("Student task: implement raw record loading.")
+
+    # Check every single error case 
+    if not path.exists():
+        raise FileNotFoundError(f"Raw records file does not exist: {path}")
+
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as error:
+        raise ValueError(f"Raw records file contains invalid JSON: {path}") from error
+
+    if not isinstance(payload, list):
+        raise ValueError("Raw JSON must contain a list")
+
+    records: list[PaperRecord] = []
